@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>INOTEX – Cotizador Web Industrial | Globus Automations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #0A0A0F;
+      --surface:    #111118;
+      --border:     #1E1E2E;
+      --accent:     #4F6EF7;
+      --accent-2:   #8B5CF6;
+      --text:       #E8E8F0;
+      --text-dim:   #7A7A9A;
+      --radius:     8px;
+      --max-w:      1140px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── NAVBAR ─────────────────────────────────────────── */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(1.25rem, 4vw, 2.5rem);
+      height: 64px;
+      background: rgba(10, 10, 15, 0.82);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.02em;
+    }
+
+    .nav-logo-icon {
+      width: 30px; height: 30px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .nav-logo-icon svg { width: 16px; height: 16px; fill: #fff; }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-dim);
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-cta {
+      background: var(--accent);
+      color: #fff !important;
+      padding: 0.45rem 1.1rem;
+      border-radius: var(--radius);
+      font-weight: 600 !important;
+      transition: opacity 0.2s !important;
+    }
+
+    .nav-cta:hover { opacity: 0.85; color: #fff !important; }
+
+    .nav-hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      color: var(--text);
+    }
+
+    /* ─── WRAPPER ────────────────────────────────────────── */
+    .page-wrapper {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 clamp(1.25rem, 4vw, 2.5rem);
+    }
+
+    /* ─── HERO ───────────────────────────────────────────── */
+    .hero {
+      padding-top: calc(64px + 80px);
+      padding-bottom: 64px;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-eyebrow span {
+      display: inline-block;
+      width: 28px; height: 1px;
+      background: var(--accent);
+    }
+
+    .hero-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.2rem, 5.5vw, 4rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      max-width: 760px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title em {
+      font-style: normal;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-desc {
+      font-size: 1.0625rem;
+      color: var(--text-dim);
+      max-width: 600px;
+      margin-bottom: 2rem;
+      line-height: 1.75;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0.35rem 0.85rem;
+      border-radius: 50px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-dim);
+      letter-spacing: 0.01em;
+    }
+
+    .badge svg { width: 13px; height: 13px; }
+    .badge.accent-badge { border-color: rgba(79,110,247,0.3); color: var(--accent); }
+    .badge.purple-badge { border-color: rgba(139,92,246,0.3); color: var(--accent-2); }
+
+    /* ─── GALLERY ────────────────────────────────────────── */
+    .gallery-section { padding: 20px 0 80px; }
+
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 1.5rem;
+    }
+
+    .video-container {
+      position: relative;
+      width: 100%;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      background: var(--surface);
+      margin-bottom: 1rem;
+      aspect-ratio: 16 / 9;
+    }
+
+    .video-container video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: var(--radius);
+    }
+
+    /* Fallback placeholder when video is absent */
+    .video-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      background: linear-gradient(135deg, #0d0d18 0%, #111128 100%);
+    }
+
+    .video-placeholder-icon {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: rgba(79,110,247,0.12);
+      border: 1px solid rgba(79,110,247,0.25);
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .video-placeholder-icon svg { width: 28px; height: 28px; color: var(--accent); }
+    .video-placeholder p { font-size: 0.85rem; color: var(--text-dim); }
+
+    /* Grid de capturas */
+    .screenshots-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .screenshot-card {
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      background: var(--surface);
+      aspect-ratio: 16/10;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+      cursor: pointer;
+    }
+
+    .screenshot-card:hover {
+      transform: scale(1.02);
+      border-color: rgba(79,110,247,0.4);
+    }
+
+    .screenshot-card img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .screenshot-placeholder {
+      width: 100%; height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, #0d0d18, #111128);
+    }
+
+    .screenshot-placeholder svg { width: 22px; height: 22px; color: var(--border); }
+    .screenshot-placeholder span { font-size: 0.72rem; color: var(--text-dim); letter-spacing: 0.05em; }
+
+    /* ─── DETAILS SECTION ────────────────────────────────── */
+    .details-section {
+      padding: 80px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .detail-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.75rem;
+      border-radius: 50px;
+      margin-bottom: 1.25rem;
+    }
+
+    .tag-problem {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239,68,68,0.25);
+      color: #f87171;
+    }
+
+    .tag-solution {
+      background: rgba(79, 110, 247, 0.1);
+      border: 1px solid rgba(79,110,247,0.25);
+      color: var(--accent);
+    }
+
+    .detail-block h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+
+    .detail-block p {
+      color: var(--text-dim);
+      font-size: 0.9375rem;
+      line-height: 1.8;
+    }
+
+    /* ─── BENEFITS LIST ──────────────────────────────────── */
+    .benefits-section {
+      padding: 0 0 80px;
+    }
+
+    .benefits-section h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 1.75rem;
+      letter-spacing: -0.01em;
+    }
+
+    .benefits-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1rem;
+      list-style: none;
+    }
+
+    .benefit-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.25rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: border-color 0.25s;
+    }
+
+    .benefit-item:hover { border-color: rgba(79,110,247,0.3); }
+
+    .benefit-icon {
+      flex-shrink: 0;
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      background: rgba(79,110,247,0.1);
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .benefit-icon svg { width: 18px; height: 18px; stroke: var(--accent); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+
+    .benefit-text strong {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+    }
+
+    .benefit-text span {
+      font-size: 0.8125rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+
+    /* ─── CTA / BACK BUTTON ──────────────────────────────── */
+    .cta-section {
+      padding: 48px 0 96px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .cta-text p {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      margin-top: 0.25rem;
+    }
+
+    .cta-text span {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .btn-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.75rem 1.75rem;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 600;
+      border-radius: var(--radius);
+      border: 1px solid transparent;
+      transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
+      letter-spacing: 0.01em;
+    }
+
+    .btn-more:hover {
+      background: #3a56e0;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(79,110,247,0.3);
+    }
+
+    .btn-more svg { width: 16px; height: 16px; }
+
+    /* ─── FOOTER ─────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 0;
+      text-align: center;
+    }
+
+    footer p {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+
+    footer a { color: var(--accent); text-decoration: none; }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+
+      .details-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .screenshots-grid { grid-template-columns: 1fr 1fr; }
+
+      .cta-section { flex-direction: column; align-items: flex-start; }
+
+      .hero-title { font-size: clamp(1.8rem, 8vw, 2.4rem); }
+    }
+
+    @media (max-width: 480px) {
+      .screenshots-grid { grid-template-columns: 1fr; }
+      .benefits-list { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .screenshot-card { transition: none; }
+      .btn-more { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════ NAVBAR ═══════════════ -->
+  <header>
+    <nav class="navbar">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        Globus Automations
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html">Portafolio</a></li>
+        <li><a href="index.html#proyectos">Proyectos</a></li>
+        <li><a href="index.html#contacto" class="nav-cta">Contacto</a></li>
+      </ul>
+
+      <button class="nav-hamburger" aria-label="Menú">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <div class="page-wrapper">
+
+      <!-- ═══════════════ HERO ═══════════════ -->
+      <section class="hero">
+        <p class="hero-eyebrow">
+          <span></span> Proyecto — Automatización Industrial
+        </p>
+        <h1 class="hero-title">
+          INOTEX –<br><em>Cotizador Web</em><br>Industrial
+        </h1>
+        <p class="hero-desc">
+          Sistema paramétrico de preventa que automatiza el cálculo de costos de piezas de acero inoxidable en tiempo real, eliminando demoras manuales y generando PDFs estructurados al instante para el equipo de ventas.
+        </p>
+        <div class="hero-badges">
+          <span class="badge accent-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            Python
+          </span>
+          <span class="badge accent-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            JavaScript
+          </span>
+          <span class="badge purple-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            Lógica B2B
+          </span>
+          <span class="badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Webhooks
+          </span>
+          <span class="badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            PDF Automático
+          </span>
+        </div>
+      </section>
+
+      <!-- ═══════════════ GALLERY ═══════════════ -->
+      <section class="gallery-section">
+        <p class="section-label">Demo en vivo</p>
+
+        <!-- Video principal -->
+        <div class="video-container">
+          <video src="assets/portada_inotex.mp4" autoplay loop muted playsinline poster="assets/portada-inotex.webp">
+            Tu navegador no soporta el elemento video.
+          </video>
+          <!-- Fallback visual si el video no carga -->
+          <div class="video-placeholder" id="video-fallback" style="display:none;">
+            <div class="video-placeholder-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                <polygon points="5 3 19 12 5 21 5 3"/>
+              </svg>
+            </div>
+            <p>Demo — portada_inotex.mp4</p>
+          </div>
+        </div>
+
+        <!-- Grid de capturas -->
+        <div class="screenshots-grid">
+
+          <div class="screenshot-card">
+            <img src="assets/captura1.jpg" alt="Interfaz del cotizador – formulario de parámetros"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="screenshot-placeholder" style="display:none;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              <span>captura1.jpg</span>
+            </div>
+          </div>
+
+          <div class="screenshot-card">
+            <img src="assets/portada-inotex.webp" alt="Vista del resultado de cotización generado"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="screenshot-placeholder" style="display:none;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              <span>portada-inotex.webp</span>
+            </div>
+          </div>
+
+          <div class="screenshot-card">
+            <img src="assets/captura2.jpg" alt="PDF generado automáticamente y enviado al equipo"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="screenshot-placeholder" style="display:none;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              <span>captura2.jpg</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ═══════════════ DETAILS ═══════════════ -->
+      <section class="details-section">
+        <div class="details-grid">
+
+          <div class="detail-block">
+            <span class="detail-tag tag-problem">El Problema</span>
+            <h3>Horas perdidas en hojas de cálculo</h3>
+            <p>
+              El equipo de INOTEX dependía de procesos manuales para cotizar piezas de acero inoxidable: tablas de cálculo dispersas, fórmulas propensas a errores humanos y ciclos de preventa que tomaban horas. Cada cotización era un cuello de botella que retrasaba decisiones comerciales críticas.
+            </p>
+          </div>
+
+          <div class="detail-block">
+            <span class="detail-tag tag-solution">La Solución Senior</span>
+            <h3>Algoritmo paramétrico con entrega instantánea</h3>
+            <p>
+              Se diseñó un motor de cálculo en Python que procesa variables del material —dimensiones, densidad, acabado superficial y margen comercial— en tiempo real. A través de webhooks, el sistema genera un PDF estructurado y lo envía automáticamente al equipo de ventas en cuestión de segundos, sin intervención manual.
+            </p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ═══════════════ BENEFITS ═══════════════ -->
+      <section class="benefits-section">
+        <h3>Beneficios técnicos del sistema</h3>
+        <ul class="benefits-list">
+
+          <li class="benefit-item">
+            <div class="benefit-icon">
+              <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            </div>
+            <div class="benefit-text">
+              <strong>Cálculo en tiempo real</strong>
+              <span>Las variables paramétricas se procesan al instante sin tiempos de espera ni recarga de página.</span>
+            </div>
+          </li>
+
+          <li class="benefit-item">
+            <div class="benefit-icon">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
+            <div class="benefit-text">
+              <strong>PDF generado automáticamente</strong>
+              <span>Documento estructurado con logo, desglose de costos y datos del cliente, listo para entregar.</span>
+            </div>
+          </li>
+
+          <li class="benefit-item">
+            <div class="benefit-icon">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.23h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6.29 6.29l.94-.85a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div class="benefit-text">
+              <strong>Envío por webhook</strong>
+              <span>Integración directa con el canal del equipo de ventas sin pasos intermedios ni correos manuales.</span>
+            </div>
+          </li>
+
+          <li class="benefit-item">
+            <div class="benefit-icon">
+              <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <div class="benefit-text">
+              <strong>Interfaz web accesible</strong>
+              <span>Formulario responsivo operable desde cualquier dispositivo, sin instalaciones adicionales.</span>
+            </div>
+          </li>
+
+          <li class="benefit-item">
+            <div class="benefit-icon">
+              <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <div class="benefit-text">
+              <strong>Lógica B2B parametrizable</strong>
+              <span>Las variables de margen, material y acabado son configurables sin tocar el código fuente.</span>
+            </div>
+          </li>
+
+          <li class="benefit-item">
+            <div class="benefit-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="benefit-text">
+              <strong>Cero errores de cálculo</strong>
+              <span>El motor Python elimina la variabilidad humana, garantizando consistencia en cada cotización.</span>
+            </div>
+          </li>
+
+        </ul>
+      </section>
+
+      <!-- ═══════════════ CTA / BACK ═══════════════ -->
+      <section class="cta-section">
+        <div class="cta-text">
+          <span>Globus Automations</span>
+          <p>Soluciones de automatización a medida para industria y comercio.</p>
+        </div>
+        <a href="index.html" class="btn-more">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          Volver al Portafolio
+        </a>
+      </section>
+
+    </div><!-- /page-wrapper -->
+  </main>
+
+  <!-- ═══════════════ FOOTER ═══════════════ -->
+  <footer>
+    <div class="page-wrapper">
+      <p>© 2025 <a href="index.html">Globus Automations</a> · Proyecto INOTEX · Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Video fallback: si el video no puede reproducirse, mostrar placeholder
+    const video = document.querySelector('.video-container video');
+    const fallback = document.getElementById('video-fallback');
+    if (video && fallback) {
+      video.addEventListener('error', () => {
+        video.style.display = 'none';
+        fallback.style.display = 'flex';
+      });
+    }
+  </script>
+
+</body>
+</html>
